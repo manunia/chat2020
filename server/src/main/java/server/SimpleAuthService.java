@@ -43,7 +43,7 @@ public class SimpleAuthService implements AuthService {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            disconnect();
+            disconnect();//разрываем соединение
         }
 
 
