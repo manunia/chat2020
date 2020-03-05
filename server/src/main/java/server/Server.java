@@ -43,6 +43,7 @@ public class Server {
         } finally {
             try {
                 server.close();
+                authService.disconnect();//вот здесь разрываем соединение с бд, когда закрывается сервер
             } catch (IOException e) {
                 e.printStackTrace();
             }

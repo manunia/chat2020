@@ -42,14 +42,12 @@ public class SimpleAuthService implements AuthService {
             rs.close();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            disconnect();//разрываем соединение
         }
-
-
     }
 
-
+    public void iaddUserInDb(String login, String pass, String nic) throws SQLException {
+        statement.executeUpdate("INSERT INTO userdata (login, pass, nick) VALUES ('" + login + "','" + pass + "','" + nic + "')");
+    }
 
     @Override
     public String getNicknameByLoginAndPassword(String login, String password) {
@@ -74,15 +72,23 @@ public class SimpleAuthService implements AuthService {
         }
 
         users.add(new UserData(login, password, nickname));
+        try {
+            iaddUserInDb(login,password,nickname);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return true;
     }
 
-    public static void connect() throws ClassNotFoundException, SQLException {
+
+    public void connect() throws ClassNotFoundException, SQLException {
         Class.forName("org.sqlite.JDBC");
         connection = DriverManager.getConnection("jdbc:sqlite:main.db");
         statement = connection.createStatement();
     }
-    public static void disconnect() {
+
+    @Override
+    public void disconnect() {
         try {
             statement.close();
         } catch (SQLException e) {
