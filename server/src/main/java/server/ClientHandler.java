@@ -39,18 +39,6 @@ public class ClientHandler {
                             }
                         }
 
-                        if (str.startsWith("/changenick ")) {
-                            String[] token = str.split(" ");
-                            boolean b = server
-                                    .getAuthService()
-                                    .changeNickname(token[1], token[2], token[3]);
-                            if (b) {
-                                sendMsg("Nickname changed");
-                            } else {
-                                sendMsg("Can't change");
-                            }
-                        }
-
                         if (str.equals("/end")) {
                             throw new RuntimeException("сами ");
                         }
@@ -93,6 +81,17 @@ public class ClientHandler {
                                 String[] token = str.split(" ", 3);
                                 if (token.length == 3) {
                                     server.privateMsg(this, token[1], token[2]);
+                                }
+                            }
+                            if (str.startsWith("/changenick ")) {
+                                String[] token = str.split(" ");
+                                boolean b = server
+                                        .getAuthService()
+                                        .changeNickname(token[1], token[2], token[3]);
+                                if (b) {
+                                    sendMsg("Nickname changed");
+                                } else {
+                                    sendMsg("Can't change");
                                 }
                             }
                         } else {
