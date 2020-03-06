@@ -88,6 +88,7 @@ public class ClientHandler {
                                 boolean b = server
                                         .getAuthService()
                                         .changeNickname(token[1], token[2], token[3]);
+                                if (!server.isLoginAuthorized(login)) b = false;
                                 if (b) {
                                     sendMsg("Nickname changed");
                                 } else {
