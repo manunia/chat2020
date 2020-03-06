@@ -20,39 +20,13 @@ public class SimpleAuthService implements AuthService {
         }
     }
 
-    private static Connection connection;
-    private static Statement statement;
-    private static PreparedStatement preparedStatement;
     private List<UserData> users;
 
-    public SimpleAuthService() throws SQLException {
+    public SimpleAuthService() {
         users = new ArrayList<>();
-
-        try {
-            connect();//соединяемся
-            statement.executeUpdate("DELETE FROM userdata");//предварительно очистим таблицу
-            //заполним таблицу в базе тестовыми данными
-            for (int i = 1; i <= 10; i++) {
-                statement.executeUpdate("INSERT INTO userdata (login, pass, nick) VALUES ('login" + i + "','pass" + i + "','nick" + i + "')");
-            }
-            connection.setAutoCommit(true);
-            //достанем из базы данные и пометстим их в наш списох юзеров
-            ResultSet rs = statement.executeQuery("SELECT * FROM userdata");
-            while (rs.next()) {
-                users.add(new UserData(rs.getString("login"), rs.getString("pass"), rs.getString("nick")));
-            }
-            rs.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        for (int i = 1; i <= 10; i++) {
+            users.add(new UserData("login" + i, "pass" + i, "nick" + i));
         }
-    }
-
-    public void iaddUserInDb(String login, String pass, String nic) throws SQLException {
-        statement.executeUpdate("INSERT INTO userdata (login, pass, nick) VALUES ('" + login + "','" + pass + "','" + nic + "')");
-    }
-
-    public void updateUserInDb(String login, String pass, String nic) throws SQLException {
-        statement.executeUpdate("UPDATE userdata SET nick='" + nic + "'WHERE login='" + login + "' AND pass='" + pass +"'");
     }
 
     @Override
@@ -78,50 +52,16 @@ public class SimpleAuthService implements AuthService {
         }
 
         users.add(new UserData(login, password, nickname));
-        try {
-            iaddUserInDb(login,password,nickname);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         return true;
     }
 
     @Override
     public boolean changeNickname(String login, String password, String nickname) {
-        for (UserData o : users) {
-            if (o.login.equals(login) && o.password.equals(password)) {
-                users.remove(o);
-                try {
-                    updateUserInDb(login,password,nickname);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                users.add(new UserData(login, password, nickname));
-                return true;
-            }
-        }
-
         return false;
-    }
-
-
-    public void connect() throws ClassNotFoundException, SQLException {
-        Class.forName("org.sqlite.JDBC");
-        connection = DriverManager.getConnection("jdbc:sqlite:main.db");
-        statement = connection.createStatement();
     }
 
     @Override
     public void disconnect() {
-        try {
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
     }
 }
