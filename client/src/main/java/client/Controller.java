@@ -211,7 +211,7 @@ public class Controller implements Initializable {
             RegController regController = fxmlLoader.getController();
             regController.controller = this;
 
-            stage.setTitle("registration");
+            stage.setTitle("Registration");
             stage.setScene(new Scene(root1, 300, 200));
 
         } catch (IOException e) {
@@ -232,9 +232,27 @@ public class Controller implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        regStage.close();
     }
 
     public void changeNick() {
-
+        regStage.setTitle("Change nick name");
+        regStage.show();
     }
+
+    public void tryChangeNick(String login, String password, String nickname){
+        String msg = String.format("/changenick %s %s %s",login, password, nickname );
+
+        if (socket == null || socket.isClosed()) {
+            connect();
+        }
+
+        try {
+            out.writeUTF(msg);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        regStage.close();
+    }
+
 }

@@ -39,6 +39,18 @@ public class ClientHandler {
                             }
                         }
 
+                        if (str.startsWith("/changenick ")) {
+                            String[] token = str.split(" ");
+                            boolean b = server
+                                    .getAuthService()
+                                    .changeNickname(token[1], token[2], token[3]);
+                            if (b) {
+                                sendMsg("Nickname changed");
+                            } else {
+                                sendMsg("Can't change");
+                            }
+                        }
+
                         if (str.equals("/end")) {
                             throw new RuntimeException("сами ");
                         }

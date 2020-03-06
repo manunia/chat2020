@@ -49,6 +49,10 @@ public class SimpleAuthService implements AuthService {
         statement.executeUpdate("INSERT INTO userdata (login, pass, nick) VALUES ('" + login + "','" + pass + "','" + nic + "')");
     }
 
+    public void updateUserInDb(String login, String pass, String nic) throws SQLException {
+        statement.executeUpdate("UPDATE userdata SET nick='" + nic + "'WHERE login='" + login + "' AND pass='" + pass +"'");
+    }
+
     @Override
     public String getNicknameByLoginAndPassword(String login, String password) {
         for (UserData o : users) {
@@ -78,6 +82,24 @@ public class SimpleAuthService implements AuthService {
             e.printStackTrace();
         }
         return true;
+    }
+
+    @Override
+    public boolean changeNickname(String login, String password, String nickname) {
+        for (UserData o : users) {
+            if (o.login.equals(login) && o.password.equals(password)) {
+                users.remove(o);
+                try {
+                    updateUserInDb(login,password,nickname);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                users.add(new UserData(login, password, nickname));
+                return true;
+            }
+        }
+
+        return false;
     }
 
 
