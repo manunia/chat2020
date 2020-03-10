@@ -1,8 +1,6 @@
 package server;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 
@@ -13,6 +11,8 @@ public class ClientHandler {
     Server server;
     private String nick;
     private String login;
+
+    //BufferedWriter writer;
 
 
     public ClientHandler(Socket socket, Server server) {
@@ -122,6 +122,7 @@ public class ClientHandler {
                     }
                     try {
                         socket.close();
+                       // writer.close();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

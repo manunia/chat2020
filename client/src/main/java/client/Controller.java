@@ -45,13 +45,13 @@ public class Controller implements Initializable {
     DataOutputStream out;
 
     BufferedWriter writer;
+    BufferedReader reader;
 
     final String IP_ADDRESS = "localhost";
     final int PORT = 8189;
 
     private boolean authenticated;
     private String nickname;
-    private String login;
 
     Stage regStage;
 
@@ -101,6 +101,7 @@ public class Controller implements Initializable {
             out = new DataOutputStream(socket.getOutputStream());
 
             writer = new BufferedWriter(new FileWriter("history_" + loginField.getText() + ".txt"));
+            reader = new BufferedReader(new FileReader("history_" + loginField.getText() + ".txt"));
 
             new Thread(() -> {
                 try {
@@ -111,6 +112,9 @@ public class Controller implements Initializable {
                             setAuthenticated(true);
                             nickname = str.split(" ")[1];
                             break;
+                        }
+                        while (reader.readLine() != null) {
+                            textArea.appendText(reader.readLine());
                         }
                         textArea.appendText(str + "\n");
                     }
