@@ -1,6 +1,8 @@
 package server;
 
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 
@@ -11,6 +13,7 @@ public class ClientHandler {
     Server server;
     private String nick;
     private String login;
+
 
     public ClientHandler(Socket socket, Server server) {
         try {
@@ -136,7 +139,7 @@ public class ClientHandler {
     public void sendMsg(String msg) {
         try {
             out.writeUTF(msg);
-            createHistoryFile(login,msg);
+            //createHistoryFile(login,msg);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -150,11 +153,12 @@ public class ClientHandler {
         return login;
     }
 
-    public void createHistoryFile(String login, String message) {
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter("history_" + login + ".txt"))) {
-            writer.write(message);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void createHistoryFile(String login, String message) {
+//        try {
+//            writer = new BufferedWriter(new FileWriter("history_" + login + ".txt"));
+//            writer.append(message);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

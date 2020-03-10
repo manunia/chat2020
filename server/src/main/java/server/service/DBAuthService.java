@@ -8,7 +8,6 @@ import java.util.List;
 
 public class DBAuthService implements AuthService {
 
-
     private static Connection connection;
     private static Statement statement;
     private static PreparedStatement preparedStatement;
