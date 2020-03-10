@@ -100,7 +100,7 @@ public class Controller implements Initializable {
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
 
-            writer = new BufferedWriter(new FileWriter("history_" + loginField.getText() + ".txt"));
+            writer = new BufferedWriter(new FileWriter("history_" + loginField.getText() + ".txt",true));
             reader = new BufferedReader(new FileReader("history_" + loginField.getText() + ".txt"));
 
             new Thread(() -> {
@@ -153,6 +153,7 @@ public class Controller implements Initializable {
                 } finally {
                     try {
                         socket.close();
+                        reader.close();
                         writer.close();
                     } catch (IOException e) {
                         e.printStackTrace();

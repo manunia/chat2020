@@ -12,9 +12,6 @@ public class ClientHandler {
     private String nick;
     private String login;
 
-    //BufferedWriter writer;
-
-
     public ClientHandler(Socket socket, Server server) {
         try {
             this.socket = socket;
@@ -122,7 +119,6 @@ public class ClientHandler {
                     }
                     try {
                         socket.close();
-                       // writer.close();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -140,7 +136,6 @@ public class ClientHandler {
     public void sendMsg(String msg) {
         try {
             out.writeUTF(msg);
-            //createHistoryFile(login,msg);
         } catch (IOException e) {
             e.printStackTrace();
         }
