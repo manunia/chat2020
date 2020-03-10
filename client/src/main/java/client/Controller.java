@@ -120,9 +120,10 @@ public class Controller implements Initializable {
 
                     //цикл работы
                     while (true) {
-                        while (reader.readLine() != null) {
-                            textArea.appendText(reader.readLine() + "\n");
-                            System.out.println(reader.readLine());
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            textArea.appendText(line + "\n");
+                            System.out.println(line);
                         }
                         String str = in.readUTF();
                         if (str.startsWith("/")) {
