@@ -113,9 +113,6 @@ public class Controller implements Initializable {
                             nickname = str.split(" ")[1];
                             break;
                         }
-                        while (reader.readLine() != null) {
-                            textArea.appendText(reader.readLine());
-                        }
                         textArea.appendText(str + "\n");
                     }
 
@@ -123,6 +120,10 @@ public class Controller implements Initializable {
 
                     //цикл работы
                     while (true) {
+                        while (reader.readLine() != null) {
+                            textArea.appendText(reader.readLine() + "\n");
+                            System.out.println(reader.readLine());
+                        }
                         String str = in.readUTF();
                         if (str.startsWith("/")) {
                             if (str.equals("/end")) {
