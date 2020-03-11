@@ -83,6 +83,18 @@ public class ClientHandler {
                                     server.privateMsg(this, token[1], token[2]);
                                 }
                             }
+                            if (str.startsWith("/changenick ")) {
+                                String[] token = str.split(" ");
+                                boolean b = server
+                                        .getAuthService()
+                                        .changeNickname(token[1], token[2], token[3]);
+                                if (!server.isLoginAuthorized(login)) b = false;
+                                if (b) {
+                                    sendMsg("Nickname changed");
+                                } else {
+                                    sendMsg("Can't change");
+                                }
+                            }
                         } else {
                             server.broadcastMsg(nick, str);
                         }

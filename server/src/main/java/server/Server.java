@@ -1,13 +1,12 @@
 package server;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import server.service.AuthService;
+import server.service.DBAuthService;
+
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
-import java.util.Scanner;
 import java.util.Vector;
 
 public class Server {
@@ -21,7 +20,7 @@ public class Server {
     public Server() {
         clients = new Vector<>();
         try {
-            authService = new SimpleAuthService();
+            authService = new DBAuthService();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -43,6 +42,7 @@ public class Server {
         } finally {
             try {
                 server.close();
+                authService.disconnect();//вот здесь разрываем соединение с бд, когда закрывается сервер
             } catch (IOException e) {
                 e.printStackTrace();
             }

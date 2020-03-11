@@ -9,8 +9,18 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
 <VBox fx:controller="client.Controller"
       xmlns:fx="http://javafx.com/fxml" alignment="center">
+
+    <MenuBar>
+        <Menu text="User Options">
+            <MenuItem text="Change NickName" onAction="#changeNick"/>
+        </Menu>
+    </MenuBar>
 
     <HBox fx:id="authPanel" managed="true">
         <TextField fx:id="loginField" HBox.hgrow="ALWAYS" promptText="Login"/>
