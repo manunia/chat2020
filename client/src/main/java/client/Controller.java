@@ -117,14 +117,16 @@ public class Controller implements Initializable {
                     }
 
                     setTitle("chat 2020 : " + nickname);
+                    //чтение из файла и вывод истории в чат
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        textArea.appendText(line + "\n");
+                        System.out.println(line);
+                    }
 
                     //цикл работы
                     while (true) {
-                        String line;
-                        while ((line = reader.readLine()) != null) {
-                            textArea.appendText(line + "\n");
-                            System.out.println(line);
-                        }
+
                         String str = in.readUTF();
                         if (str.startsWith("/")) {
                             if (str.equals("/end")) {
