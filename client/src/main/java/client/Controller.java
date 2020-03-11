@@ -121,8 +121,8 @@ public class Controller implements Initializable {
                     String line;
                     while ((line = reader.readLine()) != null) {
                         textArea.appendText(line + "\n");
-                        System.out.println(line);
                     }
+                    reader.close();//закрываем сразу после чтения
 
                     //цикл работы
                     while (true) {
@@ -157,7 +157,6 @@ public class Controller implements Initializable {
                 } finally {
                     try {
                         socket.close();
-                        reader.close();
                         writer.close();
                     } catch (IOException e) {
                         e.printStackTrace();
