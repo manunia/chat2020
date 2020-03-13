@@ -22,7 +22,7 @@ public class ClientHandler {
             out = new DataOutputStream(socket.getOutputStream());
 
             //создаем пулл потоков
-            ExecutorService executorService = Executors.newCachedThreadPool();
+            ExecutorService executorService = server.getExecutorService();
             executorService.execute(new Runnable() {
                 @Override
                 public void run() {
