@@ -18,9 +18,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.URL;
@@ -45,6 +43,9 @@ public class Controller implements Initializable {
     Socket socket;
     DataInputStream in;
     DataOutputStream out;
+
+    BufferedWriter writer;
+    BufferedReader reader;
 
     final String IP_ADDRESS = "localhost";
     final int PORT = 8189;
@@ -99,6 +100,9 @@ public class Controller implements Initializable {
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
 
+            writer = new BufferedWriter(new FileWriter("history_" + loginField.getText() + ".txt",true));
+            reader = new BufferedReader(new FileReader("history_" + loginField.getText() + ".txt"));
+
             new Thread(() -> {
                 try {
                     //цикл аутентификации
@@ -113,9 +117,16 @@ public class Controller implements Initializable {
                     }
 
                     setTitle("chat 2020 : " + nickname);
+                    //чтение из файла и вывод истории в чат
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        textArea.appendText(line + "\n");
+                    }
+                    reader.close();//закрываем сразу после чтения
 
                     //цикл работы
                     while (true) {
+
                         String str = in.readUTF();
                         if (str.startsWith("/")) {
                             if (str.equals("/end")) {
@@ -134,6 +145,7 @@ public class Controller implements Initializable {
 
                         } else {
                             textArea.appendText(str + "\n");
+                            writer.write(str + "\n");
                         }
                     }
                 } catch (SocketException e) {
@@ -145,6 +157,7 @@ public class Controller implements Initializable {
                 } finally {
                     try {
                         socket.close();
+                        writer.close();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

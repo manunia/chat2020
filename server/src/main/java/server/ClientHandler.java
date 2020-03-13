@@ -1,8 +1,6 @@
 package server;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 
@@ -150,4 +148,13 @@ public class ClientHandler {
     public String getLogin() {
         return login;
     }
+
+//    public void createHistoryFile(String login, String message) {
+//        try {
+//            writer = new BufferedWriter(new FileWriter("history_" + login + ".txt"));
+//            writer.append(message);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }
