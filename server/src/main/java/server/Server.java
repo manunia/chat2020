@@ -10,11 +10,15 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.*;
 
 public class Server {
     private Vector<ClientHandler> clients;
     private AuthService authService;
     private ExecutorService executorService;
+
+    private static final Logger logger = Logger.getLogger(Server.class.getName());
+    Handler handler = new ConsoleHandler();
 
     public ExecutorService getExecutorService() {
         return Executors.newCachedThreadPool();
@@ -25,6 +29,11 @@ public class Server {
     }
 
     public Server() {
+        handler.setFormatter(new SimpleFormatter());
+        handler.setLevel(Level.ALL);
+        logger.addHandler(handler);
+        logger.setLevel(Level.ALL);
+
         clients = new Vector<>();
         try {
             authService = new DBAuthService();
@@ -36,11 +45,12 @@ public class Server {
 
         try {
             server = new ServerSocket(8189);
-            System.out.println("Сервер запустился");
-
+            //System.out.println("Сервер запустился");
+            logger.log(Level.INFO, "Сервер запустился");
             while (true) {
                 socket = server.accept();
-                System.out.println("Клиент подключился");
+                //System.out.println("Клиент подключился");
+                logger.log(Level.INFO, "Клиент подключился");
                 new ClientHandler(socket, this);
             }
 
@@ -49,6 +59,7 @@ public class Server {
         } finally {
             try {
                 server.close();
+                logger.log(Level.INFO, "Соединение разорвано");
                 authService.disconnect();//вот здесь разрываем соединение с бд, когда закрывается сервер
             } catch (IOException e) {
                 e.printStackTrace();
