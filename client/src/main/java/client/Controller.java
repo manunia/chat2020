@@ -271,6 +271,7 @@ public class Controller implements Initializable {
     public void logOn() {
         if (socket != null && !socket.isClosed()) {
             try {
+                System.out.println("Клиент разавторизовался");
                 out.writeUTF("/end");
                 socket.close();
             } catch (IOException e) {
