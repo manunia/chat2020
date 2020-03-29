@@ -268,4 +268,14 @@ public class Controller implements Initializable {
         regStage.close();
     }
 
+    public void logOn() {
+        if (socket != null && !socket.isClosed()) {
+            try {
+                out.writeUTF("/end");
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

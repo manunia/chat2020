@@ -19,6 +19,7 @@
     <MenuBar>
         <Menu text="User Options">
             <MenuItem text="Change NickName" onAction="#changeNick"/>
+            <MenuItem text="Log on" onAction="#logOn"/>
         </Menu>
     </MenuBar>
 
